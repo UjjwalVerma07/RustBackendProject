@@ -1,0 +1,12 @@
+# Keep the Docker build context small and reproducible.
+target/
+.git/
+.gitignore
+.dockerignore
+Dockerfile
+docker-compose.yml
+**/*.rs.bk
+.DS_Store
+*.log
+.idea/
+.vscode/
