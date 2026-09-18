@@ -17,7 +17,7 @@ validate. Test-related sub-tasks are marked optional with `*`.
 
 ## Tasks
 
-- [ ] 1. Scaffold the Cargo project structure
+- [x] 1. Scaffold the Cargo project structure
   - Create `Cargo.toml` with `[package]` (edition 2021), `[lib]` (`name = "stringutils"`, `path = "src/lib.rs"`), `[[bin]]` (`name = "stringutils-cli"`, `path = "src/main.rs"`), `[build-dependencies]` `bindgen` and `cc` (pinned exact minor versions), and `[dev-dependencies]` `proptest`
   - Create placeholder `build.rs` (empty `fn main() {}`), and placeholder module files `src/lib.rs`, `src/main.rs`, `src/ffi.rs`, `src/error.rs`, plus empty `cpp/` and `tests/` directories, so the crate layout is complete and structurally coherent
   - _Requirements: 4.1, 5.1, 6.1, 7.8_

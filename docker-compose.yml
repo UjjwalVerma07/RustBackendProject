@@ -1,0 +1,47 @@
+# Docker Compose for the rust-cpp-ffi-wrapper.
+#
+# Two services share the same pinned image (built from the Dockerfile):
+#
+#   test  -> one-command reproducible build + full test suite (Requirement 8).
+#            No host toolchain required; exit status propagates from cargo.
+#            Run:  docker compose run --rm test
+#
+#   dev   -> interactive development shell with the source bind-mounted, so edits
+#            on the host are reflected immediately without rebuilding the image.
+#            Run:  docker compose run --rm dev        (drops you into bash)
+#
+# Named volumes cache the cargo registry and the target/ build directory so
+# rebuilds stay fast across runs and the host tree stays clean.
+
+services:
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rust-cpp-ffi-wrapper:dev
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - cargo-registry:/usr/local/cargo/registry
+      - target-cache:/workspace/target
+    # Compile then test in a single invocation (Req 8.2, 8.3, 8.5, 8.6).
+    command: bash -c "cargo build --locked && cargo test --locked"
+
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rust-cpp-ffi-wrapper:dev
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - cargo-registry:/usr/local/cargo/registry
+      - target-cache:/workspace/target
+    # Keep an interactive shell for iterative work.
+    command: bash
+    stdin_open: true
+    tty: true
+
+volumes:
+  cargo-registry:
+  target-cache:
