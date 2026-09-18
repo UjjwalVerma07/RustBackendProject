@@ -22,12 +22,12 @@ validate. Test-related sub-tasks are marked optional with `*`.
   - Create placeholder `build.rs` (empty `fn main() {}`), and placeholder module files `src/lib.rs`, `src/main.rs`, `src/ffi.rs`, `src/error.rs`, plus empty `cpp/` and `tests/` directories, so the crate layout is complete and structurally coherent
   - _Requirements: 4.1, 5.1, 6.1, 7.8_
 
-- [ ] 2. Implement the C++ string-utility library and C-compatible header
-  - [ ] 2.1 Write the C-compatible header `cpp/wrapper.h`
+- [x] 2. Implement the C++ string-utility library and C-compatible header
+  - [x] 2.1 Write the C-compatible header `cpp/wrapper.h`
     - Declare all five functions inside `extern "C"` guards with FFI-compatible C types: `size_t str_length(const char*)`, `size_t count_vowels(const char*)`, `char* str_reverse(const char*)`, `char* to_uppercase(const char*)`, `void free_string(char*)`; include `<stddef.h>` for `size_t`; use include guards
     - _Requirements: 2.1, 2.2, 2.3, 2.5_
 
-  - [ ] 2.2 Implement the C++ library `cpp/lib.cpp`
+  - [x] 2.2 Implement the C++ library `cpp/lib.cpp`
     - Implement all five functions matching the header declarations with C linkage; `str_length` returns byte count before the NUL; `count_vowels` counts ASCII vowels case-insensitively; `str_reverse` returns a heap copy in reverse byte order; `to_uppercase` returns a heap ASCII-uppercased copy; allocate returned strings with `new (std::nothrow) char[n+1]` returning null on failure; return a one-byte NUL-only buffer for empty input; leave bytes > 127 unchanged for uppercase and vowel counting; `free_string` releases with matching `delete[]` and is a no-op on null
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.11, 2.3, 2.4_
 
