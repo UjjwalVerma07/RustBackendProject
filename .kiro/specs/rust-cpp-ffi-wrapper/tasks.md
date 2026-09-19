@@ -120,12 +120,12 @@ validate. Test-related sub-tasks are marked optional with `*`.
 - [x] 11. Checkpoint - verify the full test suite
   - Ensure `cargo test` runs the unit, doctest, integration, property, and stress tests successfully. Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 12. Create the Docker reproducible build/test environment
-  - [ ] 12.1 Write the `Dockerfile` and `.dockerignore`
+- [x] 12. Create the Docker reproducible build/test environment
+  - [x] 12.1 Write the `Dockerfile` and `.dockerignore`
     - Base on a version-pinned Rust toolchain image; install pinned LLVM/Clang (`libclang`, for `bindgen`) and `g++` (for `cc`); set `LIBCLANG_PATH`; set the default command to compile the crate then run `cargo test` in a single chained invocation (`cargo build && cargo test`) so a compilation failure halts before tests with a non-zero exit and a green run exits zero; add `.dockerignore` excluding `target/`, `.git/`, and other local artifacts
     - _Requirements: 8.1, 8.2, 8.3, 8.5, 8.6_
 
-  - [ ] 12.2 Write `docker-compose.yml`
+  - [x] 12.2 Write `docker-compose.yml`
     - Define a single service that builds the image and runs the build+test command so one command (`docker compose run --rm test`) compiles the crate and runs the suite without any host-installed toolchain, propagating the suite exit status
     - _Requirements: 8.4, 8.2, 8.3_
 

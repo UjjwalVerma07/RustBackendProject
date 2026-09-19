@@ -1,0 +1,52 @@
+# Valgrind suppression file for the rust-cpp-ffi-wrapper leak test.
+#
+# SCOPE: These suppressions cover ONLY benign allocations made by the Rust
+# libtest harness and the std runtime (thread spawning, thread-locals, the
+# mpmc channel libtest uses to collect results). They are the "possibly lost"
+# and "still reachable" blocks that appear whenever a `cargo test` binary is
+# run under valgrind, and they originate in the runtime/harness — NOT in our
+# FFI code (stringutils / str_reverse / to_uppercase / free_string).
+#
+# The real safety guarantee for our code is "definitely lost: 0 bytes" from the
+# FFI allocation path; nothing below suppresses that. Each entry is deliberately
+# matched against std/test runtime frames only so a genuine leak in our code is
+# never hidden.
+
+{
+   rust-libtest-harness-possibly-lost
+   Memcheck:Leak
+   match-leak-kinds: possible,reachable
+   ...
+   fun:_ZN4test*
+}
+{
+   rust-std-runtime
+   Memcheck:Leak
+   match-leak-kinds: possible,reachable
+   ...
+   fun:_ZN3std*
+}
+{
+   rust-std-thread-spawn-alloc
+   Memcheck:Leak
+   match-leak-kinds: possible,reachable
+   ...
+   fun:pthread_create*
+   ...
+}
+{
+   rust-alloc-glibc-thread-local-storage
+   Memcheck:Leak
+   match-leak-kinds: possible,reachable
+   ...
+   fun:allocate_dtv
+   ...
+}
+{
+   rust-alloc-glibc-tls-get-addr
+   Memcheck:Leak
+   match-leak-kinds: possible,reachable
+   ...
+   fun:_dl_allocate_tls*
+   ...
+}

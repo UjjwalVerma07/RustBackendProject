@@ -9,6 +9,8 @@
 #   dev   -> interactive development shell with the source bind-mounted, so edits
 #            on the host are reflected immediately without rebuilding the image.
 #            Run:  docker compose run --rm dev        (drops you into bash)
+#            Leak check (valgrind, uses scripts/valgrind.sh + valgrind.supp):
+#                  docker compose run --rm dev bash scripts/valgrind.sh
 #
 # Named volumes cache the cargo registry and the target/ build directory so
 # rebuilds stay fast across runs and the host tree stays clean.
