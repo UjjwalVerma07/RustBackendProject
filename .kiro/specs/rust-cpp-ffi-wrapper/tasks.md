@@ -106,14 +106,14 @@ validate. Test-related sub-tasks are marked optional with `*`.
     - Tag: `// Feature: rust-cpp-ffi-wrapper, Property 6: Interior NUL always yields a Conversion error`
     - **Validates: Requirements 5.5**
 
-- [ ] 10. Implement integration, stress, and leak tests (`tests/integration.rs`)
-  - [ ]* 10.1 Add the stress / no-panic test (Property 7)
+- [x] 10. Implement integration, stress, and leak tests (`tests/integration.rs`)
+  - [x]* 10.1 Add the stress / no-panic test (Property 7)
     - Exercise each safe-API function over at least 10,000 generated NUL-free inputs and assert completion without panicking, confirming exactly-once frees under sustained execution
     - **Property 7: Repeated invocation never panics** — for any sequence of at least 10,000 NUL-free inputs, repeated invocation completes without panic and frees every C allocation exactly once
     - Tag: `// Feature: rust-cpp-ffi-wrapper, Property 7: Repeated invocation never panics`
     - **Validates: Requirements 7.6, 5.11**
 
-  - [ ]* 10.2 Add the valgrind-runnable leak-detection test
+  - [x]* 10.2 Add the valgrind-runnable leak-detection test
     - Add an integration test that performs many `str_reverse`/`to_uppercase` calls (each allocating in C++ and freeing via `FreeGuard`) so it can be run under `valgrind --leak-check=full --error-exitcode=1` to confirm zero leaked bytes and zero invalid frees
     - _Requirements: 7.7, 5.11_
 
