@@ -129,7 +129,7 @@ validate. Test-related sub-tasks are marked optional with `*`.
     - Define a single service that builds the image and runs the build+test command so one command (`docker compose run --rm test`) compiles the crate and runs the suite without any host-installed toolchain, propagating the suite exit status
     - _Requirements: 8.4, 8.2, 8.3_
 
-- [ ] 13. Write project documentation (`README.md`)
+- [x] 13. Write project documentation (`README.md`)
   - Document setup and the `build.rs`-driven build process; state build requirements (C++ compiler, bindgen / LLVM-Clang); describe how to run the CLI demo and the Docker environment; state the per-allocation ownership model (C++ allocates and frees returned strings via `free_string`; Rust copies into an owned `String`); state that uppercase and vowel counting are ASCII-defined with non-ASCII bytes passing through unchanged; add the interior-NUL / Conversion_Error usage note; include a 200–300 word design-choices explanation required by the evaluation
   - _Requirements: 9.2, 9.3, 9.4, 9.5, 9.6, 9.7_
 
