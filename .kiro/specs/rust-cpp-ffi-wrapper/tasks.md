@@ -31,47 +31,47 @@ validate. Test-related sub-tasks are marked optional with `*`.
     - Implement all five functions matching the header declarations with C linkage; `str_length` returns byte count before the NUL; `count_vowels` counts ASCII vowels case-insensitively; `str_reverse` returns a heap copy in reverse byte order; `to_uppercase` returns a heap ASCII-uppercased copy; allocate returned strings with `new (std::nothrow) char[n+1]` returning null on failure; return a one-byte NUL-only buffer for empty input; leave bytes > 127 unchanged for uppercase and vowel counting; `free_string` releases with matching `delete[]` and is a no-op on null
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.11, 2.3, 2.4_
 
-- [ ] 3. Implement the build script (`build.rs`)
+- [x] 3. Implement the build script (`build.rs`)
   - Compile the C++ with `cc::Build::new().cpp(true).file("cpp/lib.cpp").include("cpp").compile("stringutils")` so Cargo links `libstringutils.a` automatically
   - Generate bindings with `bindgen::Builder` on `cpp/wrapper.h` using clang args `-x c++`, `allowlist_function` for the five functions, `CargoCallbacks`, writing to `$OUT_DIR/bindings.rs`; use `.expect(...)` on `generate()` and `write_to_file(...)` so any failure panics with a diagnostic and a non-zero build exit and no bindings are written on parse failure
   - Emit `cargo:rerun-if-changed=cpp/lib.cpp` and `cargo:rerun-if-changed=cpp/wrapper.h`
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7_
 
-- [ ] 4. Implement the FFI module (`src/ffi.rs`)
+- [x] 4. Implement the FFI module (`src/ffi.rs`)
   - Add the module-level doc comment describing the safety boundary invariants (valid NUL-terminated pointers in, never dereference a returned null, free every non-null return exactly once) and the necessary `#![allow(...)]` attributes (`non_upper_case_globals`, `non_camel_case_types`, `non_snake_case`, `dead_code`)
   - `include!(concat!(env!("OUT_DIR"), "/bindings.rs"))` so this is the only unsafe boundary in the crate
   - _Requirements: 3.1, 3.2, 5.3_
 
-  - [ ]* 4.1 Add an FFI binding smoke check
+  - [x]* 4.1 Add an FFI binding smoke check
     - Add a minimal test (behind `#[cfg(test)]`) that calls `ffi::str_length` on a known NUL-terminated pointer inside an `unsafe` block and asserts the expected count, confirming compilation, linkage, and binding generation succeeded end-to-end
     - _Requirements: 3.1, 3.2, 4.6_
 
-- [ ] 5. Implement the error type (`src/error.rs`)
+- [x] 5. Implement the error type (`src/error.rs`)
   - Define `pub enum Error` with `Conversion(NulError)` and `NullResult` variants; implement `Display`, `std::error::Error` (with `source()` returning the wrapped `NulError` for `Conversion`), and `From<NulError>` so the safe API can use `?`
   - _Requirements: 5.5, 5.9, 5.10_
 
-- [ ] 6. Implement the safe Rust API (`src/lib.rs`)
-  - [ ] 6.1 Add module wiring, the `to_cstring` helper, and the `FreeGuard` RAII type
+- [x] 6. Implement the safe Rust API (`src/lib.rs`)
+  - [x] 6.1 Add module wiring, the `to_cstring` helper, and the `FreeGuard` RAII type
     - Declare `mod ffi; mod error;` and re-export `Error`; implement internal `fn to_cstring(&str) -> Result<CString, Error>` mapping interior NUL to `Error::Conversion` via `?`; implement `struct FreeGuard(*mut c_char)` whose `Drop` calls `ffi::free_string` exactly once so the C allocation is freed on every path (normal, early return, panic unwind)
     - _Requirements: 5.4, 5.5, 5.7, 5.11_
 
-  - [ ] 6.2 Implement the length and vowel-count wrappers
+  - [x] 6.2 Implement the length and vowel-count wrappers
     - Implement `pub fn str_length(&str) -> Result<usize, Error>` and `pub fn count_vowels(&str) -> Result<usize, Error>`: convert via `to_cstring`, call the FFI function inside the crate's only-permitted internal `unsafe`, return the `usize` count directly (no allocation crosses back); no `unsafe` in the signatures; add doc comments with runnable doctests and note the ASCII limitation and interior-NUL behavior
     - _Requirements: 5.1, 5.2, 5.4, 9.1_
 
-  - [ ] 6.3 Implement the string-returning wrappers
+  - [x] 6.3 Implement the string-returning wrappers
     - Implement `pub fn str_reverse(&str) -> Result<String, Error>` and `pub fn to_uppercase(&str) -> Result<String, Error>`: convert via `to_cstring`, call the FFI function, return `Err(Error::NullResult)` on a null return without dereferencing, wrap the non-null pointer in `FreeGuard`, copy the bytes into an owned `String` via `CStr`, and let the guard free the C allocation exactly once as the function returns; no `unsafe` in the signatures; add doc comments with runnable doctests documenting the ASCII limitation and interior-NUL behavior
     - _Requirements: 5.1, 5.2, 5.6, 5.7, 5.8, 5.10, 5.11, 5.12, 9.1_
 
-  - [ ]* 6.4 Write unit tests in a `#[cfg(test)] mod tests` block
+  - [x]* 6.4 Write unit tests in a `#[cfg(test)] mod tests` block
     - Cover representative valid inputs, empty string, single-character input, special-character/multi-byte Unicode input (e.g. `"héllo 世界!"`), and interior-NUL input returning `Error::Conversion` for each of the four functions; assert `str_length` equals the input byte length for representative inputs
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.8, 7.10_
 
-- [ ] 7. Implement the CLI demo binary (`src/main.rs`)
+- [x] 7. Implement the CLI demo binary (`src/main.rs`)
   - Parse arguments accepting exactly one string argument; on success invoke all four safe-API operations and print one labeled `key: value` line per operation, exiting with a zero status; print usage to stderr and exit non-zero when the argument count is wrong; on a `Conversion` error print the error to stderr and exit non-zero without printing any operation result; use only the safe API (no `unsafe`)
   - _Requirements: 6.1, 6.2, 6.3, 6.4_
 
-- [ ] 8. Checkpoint - verify build, bindings, and unit/doctest suite
+- [x] 8. Checkpoint - verify build, bindings, and unit/doctest suite
   - Ensure the crate builds (C++ compiles, bindings generate and link), doctests and unit tests pass. Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 9. Implement property-based tests for the correctness properties
