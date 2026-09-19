@@ -74,6 +74,9 @@ docker compose run --rm test
 
 # Interactive shell for iterative work (source is bind-mounted).
 docker compose run --rm dev
+
+# Run the exact command the evaluation names (`cargo test`) inside the container.
+docker compose run --rm dev bash -c 'cargo test'
 ```
 
 The image bakes in a pinned toolchain for reproducibility (Debian bookworm base):
