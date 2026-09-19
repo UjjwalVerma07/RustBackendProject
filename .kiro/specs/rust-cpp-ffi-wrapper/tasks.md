@@ -117,7 +117,7 @@ validate. Test-related sub-tasks are marked optional with `*`.
     - Add an integration test that performs many `str_reverse`/`to_uppercase` calls (each allocating in C++ and freeing via `FreeGuard`) so it can be run under `valgrind --leak-check=full --error-exitcode=1` to confirm zero leaked bytes and zero invalid frees
     - _Requirements: 7.7, 5.11_
 
-- [ ] 11. Checkpoint - verify the full test suite
+- [x] 11. Checkpoint - verify the full test suite
   - Ensure `cargo test` runs the unit, doctest, integration, property, and stress tests successfully. Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 12. Create the Docker reproducible build/test environment
