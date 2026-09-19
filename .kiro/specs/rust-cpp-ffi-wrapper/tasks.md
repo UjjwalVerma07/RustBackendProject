@@ -74,34 +74,34 @@ validate. Test-related sub-tasks are marked optional with `*`.
 - [x] 8. Checkpoint - verify build, bindings, and unit/doctest suite
   - Ensure the crate builds (C++ compiles, bindings generate and link), doctests and unit tests pass. Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 9. Implement property-based tests for the correctness properties
-  - [ ]* 9.1 Add proptest generators and Property 1 (length)
+- [x] 9. Implement property-based tests for the correctness properties
+  - [x]* 9.1 Add proptest generators and Property 1 (length)
     - Add a NUL-free string generator (including ASCII, empty, single-char, special, and multi-byte / >127 sequences) configured for at least 100 iterations; implement Property 1 as a single test
     - **Property 1: Length equals host byte length** — for any NUL-free string `s`, `str_length(s) == Ok(s.as_bytes().len())`
     - Tag: `// Feature: rust-cpp-ffi-wrapper, Property 1: Length equals host byte length`
     - **Validates: Requirements 1.1, 1.7, 7.10**
 
-  - [ ]* 9.2 Add Property 2 (reverse involution)
+  - [x]* 9.2 Add Property 2 (reverse involution)
     - **Property 2: Reverse is an involution** — for any NUL-free string `s`, `str_reverse(str_reverse(s)) == Ok(s)` and `str_reverse(s)` equals the host byte reversal
     - Tag: `// Feature: rust-cpp-ffi-wrapper, Property 2: Reverse is an involution`
     - **Validates: Requirements 1.2, 1.8**
 
-  - [ ]* 9.3 Add Property 3 (vowel count vs host model)
+  - [x]* 9.3 Add Property 3 (vowel count vs host model)
     - **Property 3: Vowel count equals the host ASCII model** — for any NUL-free string `s`, `count_vowels(s)` equals an independent host-side ASCII vowel count, never counting bytes > 127
     - Tag: `// Feature: rust-cpp-ffi-wrapper, Property 3: Vowel count equals the host ASCII model`
     - **Validates: Requirements 1.3, 1.5**
 
-  - [ ]* 9.4 Add Property 4 (uppercase vs host model)
+  - [x]* 9.4 Add Property 4 (uppercase vs host model)
     - **Property 4: Uppercase equals the host ASCII model** — for any NUL-free string `s`, `to_uppercase(s)` equals the host-side ASCII-uppercase transform, leaving bytes > 127 unchanged
     - Tag: `// Feature: rust-cpp-ffi-wrapper, Property 4: Uppercase equals the host ASCII model`
     - **Validates: Requirements 1.4, 1.5**
 
-  - [ ]* 9.5 Add Property 5 (ASCII case round-trip)
+  - [x]* 9.5 Add Property 5 (ASCII case round-trip)
     - **Property 5: ASCII case round-trip** — for any string `s` of only ASCII lowercase letters, `to_uppercase(s).map(|u| u.to_lowercase()) == Ok(s)`
     - Tag: `// Feature: rust-cpp-ffi-wrapper, Property 5: ASCII case round-trip`
     - **Validates: Requirements 7.9, 1.4**
 
-  - [ ]* 9.6 Add Property 6 (interior NUL yields Conversion error)
+  - [x]* 9.6 Add Property 6 (interior NUL yields Conversion error)
     - **Property 6: Interior NUL always yields a Conversion error** — for any string with at least one interior NUL, every safe-API function returns `Err(Error::Conversion)` and does not call the FFI layer
     - Tag: `// Feature: rust-cpp-ffi-wrapper, Property 6: Interior NUL always yields a Conversion error`
     - **Validates: Requirements 5.5**
