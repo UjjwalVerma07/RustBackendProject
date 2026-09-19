@@ -133,7 +133,7 @@ validate. Test-related sub-tasks are marked optional with `*`.
   - Document setup and the `build.rs`-driven build process; state build requirements (C++ compiler, bindgen / LLVM-Clang); describe how to run the CLI demo and the Docker environment; state the per-allocation ownership model (C++ allocates and frees returned strings via `free_string`; Rust copies into an owned `String`); state that uppercase and vowel counting are ASCII-defined with non-ASCII bytes passing through unchanged; add the interior-NUL / Conversion_Error usage note; include a 200–300 word design-choices explanation required by the evaluation
   - _Requirements: 9.2, 9.3, 9.4, 9.5, 9.6, 9.7_
 
-- [ ] 14. Final checkpoint - verify the whole suite via cargo and Docker
+- [x] 14. Final checkpoint - verify the whole suite via cargo and Docker
   - Confirm `cargo build` and `cargo test` pass on the host, and that the Docker environment builds the crate and runs the full suite to a zero exit in a single invocation. Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
